@@ -1,23 +1,34 @@
-// import { useState } from 'react'
-import { useEffect, useSatet } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
 import "./App.css";
+import { fetchImage } from "../../image-api";
 import ImageGallery from "../ImageGallery/ImageGallery";
-import ImageModal from "../ImageModal/ImageModal";
-import SearchBar from "../SearchBar/SearchBar";
 
 export default function App() {
+  const [images, setImages] = useState([]);
+  const [isloading, setIsloading] = useState(false);
+  const [error, setError] = useState(false);
+
   useEffect(() => {
-    async function fetchImages() {
-      const response = await axios.get("https://api.unsplash.com/");
-      // Тут будемо виконувати HTTP-запит
+    async function getImages() {
+      setIsloading(true);
+      try {
+        const data = await fetchImage("dog");
+        setImages(data);
+      } catch (error) {
+        setError(true);
+      } finally {
+        setIsloading(false);
+      }
     }
-    fetchImages();
+    getImages();
   }, []);
 
   return (
     <div>
-      <h1>Latest articles</h1>
+      <h1>Gallery</h1>
+      {error && <p>Ooops! Error</p>}
+      {isloading && <p>Please wait...</p>}
+      {images.length > 0 && <ImageGallery items={images} />}
     </div>
   );
 }
