@@ -3,45 +3,54 @@ import "./App.css";
 import { fetchImage } from "../../image-api";
 import ImageGallery from "../ImageGallery/ImageGallery";
 import SearchBar from "../SearchBar/SearchBar";
+import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 
 export default function App() {
   const [images, setImages] = useState([]);
   const [isloading, setIsloading] = useState(false);
   const [error, setError] = useState(false);
+  const [page, setPage] = useState(1);
+  const [query, setQuery] = useState("");
 
-  // useEffect(() => {
-  //   async function getImages() {
-  //     setIsloading(true);
-  //     try {
-  //       const data = await fetchImage("dog");
-  //       setImages(data);
-  //     } catch (error) {
-  //       setError(true);
-  //     } finally {
-  //       setIsloading(false);
-  //     }
-  //   }
-  //   getImages();
-  // }, []);
-
-  const handleSearch = async (newQuery) => {
-    try {
-      setIsloading(true);
-      const data = await fetchImage(newQuery);
-      setImages(data.results);
-    } catch (error) {
-      setError(true);
-    } finally {
-      setIsloading(false);
-    }
+  const handleSearch = (newQuery) => {
+    setQuery(newQuery);
+    setPage(1);
+    setImages([]);
   };
+  const handleLoadMore = () => {
+    setPage(page + 1);
+  };
+
+  useEffect(() => {
+    if (query === "") {
+      return;
+    }
+    async function getImages() {
+      try {
+        setError(false);
+        setIsloading(true);
+        const data = await fetchImage(query, page);
+        setImages((prevImages) => {
+          return [...prevImages, ...data.results];
+        });
+      } catch (error) {
+        setError(true);
+      } finally {
+        setIsloading(false);
+      }
+    }
+    getImages();
+  }, [page, query]);
+
   return (
     <div>
       <h1>Gallery</h1>
       <SearchBar onSearch={handleSearch} />
       {error && <p>Ooops! Error</p>}
-      {isloading && <p>Please wait...</p>}
       {images.length > 0 && <ImageGallery items={images} />}
+      {isloading && <p>Please wait...</p>}
+      {/* <button onClick={handleLoadMore}>Load more</button> */}
+      {images.length > 0 && <LoadMoreBtn onLoadMore={handleLoadMore} />}
     </div>
   );
 }

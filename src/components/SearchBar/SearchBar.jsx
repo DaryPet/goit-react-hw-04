@@ -11,7 +11,13 @@ export default function SearchBar({ onSearch }) {
       }}
     >
       <Form>
-        <Field type="text" name="query"></Field>
+        <Field
+          type="text"
+          name="query"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+        ></Field>
         <button type="submit">Search</button>
       </Form>
     </Formik>
