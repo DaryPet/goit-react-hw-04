@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+
 import "./App.css";
 import { fetchImage } from "../../image-api";
 import ImageGallery from "../ImageGallery/ImageGallery";
 import SearchBar from "../SearchBar/SearchBar";
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
+import Loader from "../Loader/Loader";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 export default function App() {
   const [images, setImages] = useState([]);
@@ -45,10 +48,11 @@ export default function App() {
   return (
     <div>
       <h1>Gallery</h1>
+
       <SearchBar onSearch={handleSearch} />
-      {error && <p>Ooops! Error</p>}
+      {error && <ErrorMessage />}
       {images.length > 0 && <ImageGallery items={images} />}
-      {isloading && <p>Please wait...</p>}
+      {isloading && <Loader />}
       {/* <button onClick={handleLoadMore}>Load more</button> */}
       {images.length > 0 && <LoadMoreBtn onLoadMore={handleLoadMore} />}
     </div>
