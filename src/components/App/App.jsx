@@ -7,6 +7,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 import Loader from "../Loader/Loader";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import ImageModal from "../ImageModal/ImageModal";
 
 export default function App() {
   const [images, setImages] = useState([]);
@@ -14,6 +15,8 @@ export default function App() {
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
+  const [modal, setModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const handleSearch = (newQuery) => {
     setQuery(newQuery);
@@ -45,16 +48,28 @@ export default function App() {
     getImages();
   }, [page, query]);
 
+  const openModal = (imageUrl) => {
+    setSelectedImage(imageUrl);
+  };
+
+  const closeModal = () => {
+    setSelectedImage(null);
+  };
+
+  console.log("selectedImage:", selectedImage);
   return (
     <div>
       <h1>Gallery</h1>
 
       <SearchBar onSearch={handleSearch} />
       {error && <ErrorMessage />}
-      {images.length > 0 && <ImageGallery items={images} />}
+      {images.length > 0 && (
+        <ImageGallery items={images} onImageClick={openModal} />
+      )}
       {isloading && <Loader />}
       {/* <button onClick={handleLoadMore}>Load more</button> */}
       {images.length > 0 && <LoadMoreBtn onLoadMore={handleLoadMore} />}
+      <ImageModal imageUrl={selectedImage} onClose={closeModal} />
     </div>
   );
 }
