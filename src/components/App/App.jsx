@@ -59,8 +59,6 @@ export default function App() {
   console.log("selectedImage:", selectedImage);
   return (
     <div>
-      <h1 className={css.title}>Gallery</h1>
-
       <SearchBar onSearch={handleSearch} />
       {error && <ErrorMessage />}
       {images.length > 0 && (
