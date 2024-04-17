@@ -11,6 +11,10 @@ const customStyles = {
     overflow: "auto",
     WebkitOverflowScrolling: "touch",
     outline: "none",
+    background: "rgba(0, 0, 0, 0.50)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 };
 

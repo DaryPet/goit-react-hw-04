@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import css from "./App.module.css";
 
-import "./App.css";
 import { fetchImage } from "../../image-api";
 import ImageGallery from "../ImageGallery/ImageGallery";
 import SearchBar from "../SearchBar/SearchBar";
@@ -59,7 +59,7 @@ export default function App() {
   console.log("selectedImage:", selectedImage);
   return (
     <div>
-      <h1>Gallery</h1>
+      <h1 className={css.title}>Gallery</h1>
 
       <SearchBar onSearch={handleSearch} />
       {error && <ErrorMessage />}
