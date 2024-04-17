@@ -1,20 +1,12 @@
-/* #root {
+#root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-} */
-/* .app-container {
+}
+.app-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-} */
-.title {
-  text-align: center; /* Центрируем текст по горизонтали */
-  margin: 0 auto; /* Центрируем блок по горизонтали */
-  display: flex; /* Используем flexbox */
-  justify-content: center; /* Центрируем по горизонтали */
-  align-items: center; /* Центрируем по вертикали */
-  height: 100px;
 }
